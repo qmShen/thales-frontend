@@ -9,7 +9,8 @@ var pipeService = new Vue({
     STATIONSELECTED: 'station_selected',
     MAPREADT: 'map_ready',
     LEGENDCONFIGREADY: 'legend_config_ready',
-    REGIONBRUSHED: 'region_brushed'
+    REGIONBRUSHED: 'region_brushed',
+    NAVIGATIONBRUSHSTART:' navigation_brush_start'
   },
 
   methods:{
@@ -43,6 +44,18 @@ var pipeService = new Vue({
       })
     },
 
+
+    // Clear other brushes
+    emitSelectionBrushStart: function(msg){
+      this.$emit(this.NAVIGATIONBRUSHSTART, msg);
+    },
+    onSelectionBrushStart: function(callback){
+      this.$on(this.NAVIGATIONBRUSHSTART,function(msg){
+        callback(msg);
+      })
+    },
+
+
     // Link Navigation view to detail view
     emitSelectionBrushend: function(msg){
       this.$emit(this.REGIONBRUSHED, msg);
@@ -52,6 +65,7 @@ var pipeService = new Vue({
         callback(msg);
       })
     },
+
 
   }
 });

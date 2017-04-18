@@ -19,9 +19,13 @@
   import NavBar from './components/NavBar.vue'
   import DetailView from './components/DetailView.vue'
   import TrendView from './components/TrendView.vue'
-  import Navigation from './components/Navigation.vue'
+  import Navigation from './components/Navigation/NavContainerList.vue'
+
+
   import TicketView from './components/TicketView.vue'
   import dataService from './service/dataService.js'
+
+
   import pipeService from './service/pipeService.js'
 
   export default {
@@ -57,10 +61,9 @@
         dataService.readMap(newId, function(map){
           _this.stationMap = map;
           pipeService.emitMapReady(map);
-        });
-
-        dataService.rendLegendConfiguration(newId, function(legendConfig){
-          pipeService.emitLegendConfigReady(legendConfig);
+          dataService.rendLegendConfiguration(newId, function(legendConfig){
+            pipeService.emitLegendConfigReady(legendConfig);
+          });
         });
       }
     }
