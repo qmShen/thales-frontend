@@ -5,9 +5,9 @@
 
 import * as d3 from 'd3'
 
-let NavigationMaps = function(el, maps){
+let NavigationMaps = function(el, maps, stationId){
   this.$el = el;
-  this.stationId = maps['stationId'];
+  this.stationId = stationId;
   this.height = el.clientHeight;
   this.width = el.clientWidth;
   this.layerGap = 3;
@@ -112,8 +112,10 @@ NavigationMaps.prototype.renderMap = function(){
     let selectionHeight = Math.abs(s[0][1] - s[1][1]);
 
 
-    if(_this.brushCallback)
-      _this.brushCallback(xRange, yRange, selectionWidth, selectionHeight, layerObj, map, _this.legendConfig[layer]);
+    if(_this.brushCallback){
+      _this.brushCallback(xRange, yRange, selectionWidth, selectionHeight, layerObj, map, _this.legendConfig['legendConfig'][layer]);
+    }
+
   }
   let brush = d3.brush()
     .extent([[0,0], [_tempWidth, _tempHeight]])
@@ -158,7 +160,7 @@ NavigationMaps.prototype.setLegend = function(legendConfig){
 
   this.layerContainers.each(function(mapData){
     let layerId = mapData['layer'];
-    let legendArray = legendConfig[layerId]
+    let legendArray = legendConfig['legendConfig'][layerId];
     let legendContainer = d3.select(this).append('g').attr('class', 'legendContainer');
     let lcs = legendContainer.selectAll('.legend').data(legendArray).enter().append('g')
       .attr('transform', function(d, i){

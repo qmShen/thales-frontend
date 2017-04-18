@@ -20,6 +20,7 @@
       this.initDetailMap();
       pipeService.onSelectionBrushend(function(d){
 //        console.log('selected', d);
+        console.log('mark');
         _this.initDetailMap()
         _this.detailMap.mapFitScale(d);
 
