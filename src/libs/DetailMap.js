@@ -88,7 +88,8 @@ DetailMaps.prototype.mapFitScale = function(updateConfig){
   let legendSize = 50;
 
   let legendsData = updateConfig['legendConfig'];
-
+  if(legendsData == undefined) return;
+  
   let lcs = this.mapContainer.append('g').attr('class', 'legendscontainer').selectAll('.legend')
     .data(legendsData).enter().append('g').attr('class','legend')
     .attr('transform', function(d, i){

@@ -158,7 +158,7 @@ NavigationMap.prototype.setLegend = function(legendConfig){
 
   let legendArray = legendConfig[this.layerId];
 
-
+  if(legendArray == undefined) return
   let lcs = legendContainer.selectAll('.legend').data(legendArray).enter().append('g')
     .attr('transform', function(d, i){
       let x = _this.xScale(d['pos'][0]);

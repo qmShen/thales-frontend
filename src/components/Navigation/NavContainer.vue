@@ -65,7 +65,7 @@
 <style>
   .navigation{
     float: left;
-    width: 33%;
+    width: 25%;
     height: 100%;
     /*background-color: #68ffc4*/
   }

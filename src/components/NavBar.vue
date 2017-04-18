@@ -5,8 +5,8 @@
     <el-submenu index="2">
       <template slot="title">Select Station</template>
       <el-menu-item index="admiralty">admiralty</el-menu-item>
-      <el-menu-item index="admiralty2">admiralty2</el-menu-item>
-      <el-menu-item index="admiralty3">admiralty3</el-menu-item>
+      <el-menu-item index="mongkok">mongkok</el-menu-item>
+
     </el-submenu>
   </el-menu>
 </template>
