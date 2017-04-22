@@ -32,6 +32,10 @@ NavigationMap.prototype.getStationId = function(){
   return this.stationId;
 }
 
+NavigationMap.prototype.getScale = function(){
+  return [this.xScale, this.yScale];
+}
+
 NavigationMap.prototype.initContainer = function(){
 
   this.svg = d3.select(this.$el)

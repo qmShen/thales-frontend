@@ -36,8 +36,19 @@ function rendLegendConfiguration(mapId, callback){
   })
 }
 
+// add by zhp
+function readRecordWithTimeRange(mapId, startTime, timeRange , callback){
+  const url = `${dataServerUrl}/getRecordWithTimeRange`
+  $http.post(url, {'StationId': mapId, 'starttime':startTime, 'timerange':timeRange}).then(response => {
+    callback(response.data)
+  }, errResponse => {
+    console.log(errResponse)
+  })
+}
+
 export default{
   readMap,
   test,
-  rendLegendConfiguration
+  rendLegendConfiguration,
+  readRecordWithTimeRange
 }

@@ -47,12 +47,27 @@
       let _this = this;
       pipeService.onStationSelected(function(d){
         _this.stationId = d;
+
+        let startTime = 0;
+        _this.timeGap = 5000;
+        _this.getRecordsFromTime(startTime, _this.timeGap);
+        // _this.timeId = setInterval(
+        //   function() {
+        //     _this.getRecordsFromTime(startTime, _this.timeGap);
+        //     startTime += _this.timeGap;
+        //   },
+        //   _this.timeGap);
       });
     },
     methods:{
       initModules(){
         //After select one station, all the four views will be updated
-
+      },
+      getRecordsFromTime(startTime, timeRange) {
+        let _this = this;
+        dataService.readRecordWithTimeRange(_this.stationId, startTime, timeRange, function(record){
+          pipeService.emitRecordReady(record);
+        });
       }
     },
     watch:{
@@ -64,6 +79,11 @@
           dataService.rendLegendConfiguration(newId, function(legendConfig){
             pipeService.emitLegendConfigReady(legendConfig);
           });
+
+          dataService.readRecordWithTimeRange(newId, 0, 5000 , function(recordTimeRange){
+            console.log("recordTimeRange: ", recordTimeRange)
+          });
+
         });
       }
     }

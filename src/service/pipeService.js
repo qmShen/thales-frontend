@@ -9,6 +9,7 @@ var pipeService = new Vue({
     STATIONSELECTED: 'station_selected',
     MAPREADT: 'map_ready',
     LEGENDCONFIGREADY: 'legend_config_ready',
+    RECORDREADY: 'record_ready',
     REGIONBRUSHED: 'region_brushed',
     NAVIGATIONBRUSHSTART:' navigation_brush_start'
   },
@@ -40,6 +41,16 @@ var pipeService = new Vue({
     },
     onLegendConfigReady: function(callback){
       this.$on(this.LEGENDCONFIGREADY,function(msg){
+        callback(msg);
+      })
+    },
+
+    //Distribute update record data
+    emitRecordReady: function(msg){
+      this.$emit(this.RECORDREADY, msg);
+    },
+    onRecordReady: function(callback){
+      this.$on(this.RECORDREADY,function(msg){
         callback(msg);
       })
     },
