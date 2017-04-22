@@ -5,12 +5,13 @@
 import * as d3 from 'd3'
 import h337 from 'heatmap.js'
 
-let NavigationHeatmap = function(el, scaleList){
+let NavigationHeatmap = function(el, scaleObject){
   this.$el = el;
   this.heatmapInstance = undefined;
   this.canvasHeatmap = undefined;
-  this.xScale = scaleList[0];
-  this.yScale = scaleList[1];
+  this.xScale = scaleObject['xScale'];
+  this.yScale = scaleObject['yScale'];
+  this.offsetX = scaleObject['offsetX'];
   this.initContainer();
 };
 
@@ -50,7 +51,7 @@ NavigationHeatmap.prototype.updateHeatmapCanvas = function(heatmapInstance, reco
     // let max = 0
     for (let pointIdx in this.record[recordIdx]['small_clusters']) {
         let temp = {
-            x: Math.round(this.xScale(this.record[recordIdx]['small_clusters'][pointIdx][0])),
+            x: Math.round(this.xScale(this.record[recordIdx]['small_clusters'][pointIdx][0])+this.offsetX),
             y: Math.round(this.yScale(this.record[recordIdx]['small_clusters'][pointIdx][1])),
             value: this.record[recordIdx]['small_clusters'][pointIdx][4]
         }

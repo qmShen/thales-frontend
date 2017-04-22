@@ -23,6 +23,8 @@ let NavigationMap = function(el, map){
   this.reXScale = undefined;
   this.reYScale = undefined;
 
+  this.offsetX = undefined;
+
   this.initContainer();
   this.renderMap();
   console.log('render');
@@ -32,8 +34,13 @@ NavigationMap.prototype.getStationId = function(){
   return this.stationId;
 }
 
+// getScale for NavigationHeatmap
 NavigationMap.prototype.getScale = function(){
-  return [this.xScale, this.yScale];
+  return {
+    'xScale': this.xScale,
+    'yScale': this.yScale,
+    'offsetX': this.offsetX
+  }
 }
 
 NavigationMap.prototype.initContainer = function(){
@@ -96,6 +103,7 @@ NavigationMap.prototype.renderMap = function(){
 
   this.reXScale = this.xScale.invert;
   let offsetX = (this.widthPerSvg - _tempWidth) / 2;
+  this.offsetX = offsetX;
 
   let elePath = d3.line()
     .x(function(d) { return _this.xScale(d[0]); })
