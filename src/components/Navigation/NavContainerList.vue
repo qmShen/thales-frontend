@@ -33,6 +33,7 @@
         _this.parseMap();
       });
       pipeService.onRecordReady(function(data){
+        console.log("receive record data in NavContainerList");
         _this.recordData = data;
         // console.log('_this.recordData: ', _this.recordData);
         _this.parseRecord();

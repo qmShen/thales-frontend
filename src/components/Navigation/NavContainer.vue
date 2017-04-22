@@ -29,7 +29,6 @@
       console.log("recordObj ", this.recordObj);
       this.layerId = this.mapObj['layer'];
       this.navMap = new NavigationMap(this.$el, this.mapObj);
-      this.navHeatmap = new NavigationHeatmap(this.$el, this.recordObj, this.navMap.getScale());
 
       this.navMap.on('brushstart', function(layerId){
         pipeService.emitSelectionBrushStart(layerId);
@@ -47,6 +46,9 @@
         });
       });
 
+      this.navHeatmap = new NavigationHeatmap(this.$el, this.navMap.getScale());
+      this.navHeatmap.updateHeatmap(this.recordObj);
+
       pipeService.onSelectionBrushStart(function(layerId){
         if(_this.layerId != layerId){
           _this.navMap.clearBrush();
@@ -62,7 +64,15 @@
         }
       })
     },
-    methods: {}
+    methods: {},
+    watch:{
+      recordObj(newRecord){
+        console.log("udpate in watch");
+        console.log("newRecord: ", newRecord);
+        this.navHeatmap.updateHeatmap(newRecord);
+      }
+    }
+
   }
 </script>
 

@@ -5,45 +5,13 @@
 import * as d3 from 'd3'
 import h337 from 'heatmap.js'
 
-let NavigationHeatmap = function(el, record, scaleList){
-
-  console.log('el: ', el);
-  console.log('record: ', record);
-
+let NavigationHeatmap = function(el, scaleList){
   this.$el = el;
-  this.layerId = record['layer'];
-  this.height = el.clientHeight;
-  this.width = el.clientWidth;
-  this.margin = {top: 5, left: 5, right:5 ,bottom: 5};
-
-  this.record = record['data'];
-//   this.records = record['allrecords'];
-  this.widthPerSvg = (this.width - this.margin.left - this.margin.right)
-  this.heightPerSvg = this.height - this.margin.top - this.margin.bottom;
-
   this.heatmapInstance = undefined;
   this.canvasHeatmap = undefined;
-
-  console.log('scaleList: ', scaleList);
   this.xScale = scaleList[0];
   this.yScale = scaleList[1];
-
-
   this.initContainer();
-//   for(let recordIdx in this.record){
-//       console.log('recordIdx: ', recordIdx);
-//       this.clearHeatmapCanvas();
-
-  let startIndex = 0;
-  let endIndex = record['data'].length;
-  this.timer = setInterval(() => {
-      if (startIndex < endIndex) {
-          this.updateHeatmapCanvas(this.heatmapInstance, startIndex);
-          ++startIndex;
-        } else {
-            clearInterval(this.timer);
-        }
-    }, 1000);
 };
 
 NavigationHeatmap.prototype.initContainer = function(){
@@ -60,6 +28,20 @@ NavigationHeatmap.prototype.initContainer = function(){
     }
     this.heatmapInstance = h337.create(config)
     this.canvasHeatmap = this.$el.querySelector('.heatmap-canvas')
+};
+
+NavigationHeatmap.prototype.updateHeatmap = function(record){
+    this.record = record['data'];
+    let startIndex = 0;
+    let endIndex = this.record.length;
+    this.timer = setInterval(() => {
+        if (startIndex < endIndex) {
+            this.updateHeatmapCanvas(this.heatmapInstance, startIndex);
+            ++startIndex;
+        } else {
+            clearInterval(this.timer);
+        }
+    }, 1000);
 };
 
 NavigationHeatmap.prototype.updateHeatmapCanvas = function(heatmapInstance, recordIdx) {

@@ -51,12 +51,13 @@
         let startTime = 0;
         _this.timeGap = 5000;
         _this.getRecordsFromTime(startTime, _this.timeGap);
-        // _this.timeId = setInterval(
-        //   function() {
-        //     _this.getRecordsFromTime(startTime, _this.timeGap);
-        //     startTime += _this.timeGap;
-        //   },
-        //   _this.timeGap);
+        _this.timeId = setInterval(
+          function() {
+            console.log('startTime: ', startTime);
+            _this.getRecordsFromTime(startTime, _this.timeGap);
+            startTime += _this.timeGap;
+          },
+          _this.timeGap);
       });
     },
     methods:{
