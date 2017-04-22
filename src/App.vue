@@ -57,7 +57,7 @@
             _this.getRecordsFromTime(startTime, _this.timeGap);
             startTime += _this.timeGap;
           },
-          _this.timeGap);
+          6000);
       });
     },
     methods:{

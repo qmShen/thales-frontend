@@ -31,6 +31,7 @@ NavigationHeatmap.prototype.initContainer = function(){
 };
 
 NavigationHeatmap.prototype.updateHeatmap = function(record){
+    console.log("start to update heatmap in NavigationHeatmap");
     this.record = record['data'];
     let startIndex = 0;
     let endIndex = this.record.length;
@@ -41,7 +42,7 @@ NavigationHeatmap.prototype.updateHeatmap = function(record){
         } else {
             clearInterval(this.timer);
         }
-    }, 1000);
+    }, 500);
 };
 
 NavigationHeatmap.prototype.updateHeatmapCanvas = function(heatmapInstance, recordIdx) {
