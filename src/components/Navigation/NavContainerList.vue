@@ -1,6 +1,9 @@
 <template>
   <div class="navigationlist">
-    <NavContainer v-for="(mapObj, index) in mapObjs" v-bind:mapObj="mapObj" v-bind:recordObj="recordObjs[index]" :key="mapObj['layer']"></NavContainer>
+    <NavContainer
+      v-for="(mapObj, index) in mapObjs"
+      v-bind:mapObj="mapObj"
+      v-bind:recordObj="recordObjs[index]" :key="mapObj['layer']" v-bind:dataRecord="dataRecord"></NavContainer>
   </div>
 </template>
 
@@ -12,6 +15,7 @@
 
   export default {
     name: 'Navigation',
+    props:['dataRecord'],
     data(){
       return {
         title: 'Navigation',
@@ -19,7 +23,6 @@
         stationId: null,
         idRange: [-3, -2, -1, 0, 1, 2, 3],
         mapObjs: [],
-        recordObjs: []
       }
     },
     components: {
@@ -29,14 +32,15 @@
       let _this = this;
       pipeService.onMapReady(function(data){
         _this.mapData = data;
-        // console.log('_this.mapData: ', _this.mapData);
         _this.parseMap();
       });
       pipeService.onRecordReady(function(data){
-        console.log("receive record data in NavContainerList");
         _this.recordData = data;
-        // console.log('_this.recordData: ', _this.recordData);
         _this.parseRecord();
+      });
+      pipeService.onRenderFrame(function(renderData){
+          console.log('newRenderData', renderData.length)
+//        console.log('index', indexObj.startIndex, indexObj.endIndex,  _this.dataRecord.length);
       });
     },
     methods:{
@@ -71,13 +75,12 @@
           return b.layer - a.layer;
         });
         maps.forEach(function(d){
-            d['allMaps'] = maps;
-            d['stationId'] = mapData['stationId'];
+          d['allMaps'] = maps;
+          d['stationId'] = mapData['stationId'];
         })
         _this.mapObjs = maps;
         _this.stationId = mapData['stationId'];
 
-        // console.log('_this.mapObjs: ', _this.mapObjs)
 
       },
       renderLegend(){

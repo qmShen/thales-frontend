@@ -32,22 +32,22 @@ NavigationHeatmap.prototype.initContainer = function(){
 };
 
 NavigationHeatmap.prototype.updateHeatmap = function(record){
-    console.log("start to update heatmap in NavigationHeatmap");
+
     this.record = record['data'];
     let startIndex = 0;
     let endIndex = this.record.length;
-    this.timer = setInterval(() => {
-        if (startIndex < endIndex) {
-            this.updateHeatmapCanvas(this.heatmapInstance, startIndex);
-            ++startIndex;
-        } else {
-            clearInterval(this.timer);
-        }
-    }, 500);
+    // this.timer = setInterval(() => {
+    //     if (startIndex < endIndex) {
+    //         this.updateHeatmapCanvas(this.heatmapInstance, startIndex);
+    //         ++startIndex;
+    //     } else {
+    //         clearInterval(this.timer);
+    //     }
+    // }, 500);
 };
 
 NavigationHeatmap.prototype.updateHeatmapCanvas = function(heatmapInstance, recordIdx) {
-    let points = []
+    let points = [];
     // let max = 0
     for (let pointIdx in this.record[recordIdx]['small_clusters']) {
         let temp = {

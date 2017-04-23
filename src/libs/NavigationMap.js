@@ -27,7 +27,7 @@ let NavigationMap = function(el, map){
 
   this.initContainer();
   this.renderMap();
-  console.log('render');
+
 
 };
 NavigationMap.prototype.getStationId = function(){
@@ -36,6 +36,9 @@ NavigationMap.prototype.getStationId = function(){
 
 // getScale for NavigationHeatmap
 NavigationMap.prototype.getScale = function(){
+
+
+
   return {
     'xScale': this.xScale,
     'yScale': this.yScale,
@@ -87,7 +90,10 @@ NavigationMap.prototype.renderMap = function(){
   this.mapAttr['smallestX'] = smallestX;
   this.mapAttr['largestY'] = largestY;
   this.mapAttr['smallestY'] = smallestY;
+  // console.log('this.mapAttr', this.mapAttr);
   let yxRatioInData = (largestY - smallestY) / (largestX - smallestX);
+
+
   let yxRatioForSvg = this.heightPerSvg / this.widthPerSvg;
   let _tempWidth = this.widthPerSvg;
   let _tempHeight = this.heightPerSvg;
@@ -167,7 +173,9 @@ NavigationMap.prototype.setLegend = function(legendConfig){
 
 
   let legendContainer = this.layerContainer.append('g').attr('class', 'legendContainer');
-
+  legendContainer.on('mousemove', function(d){
+    console.log('mousemove',  d3.mouse(this)[0], d3.mouse(this)[1])
+  })
   let legendArray = legendConfig[this.layerId];
 
   if(legendArray == undefined) return
@@ -184,6 +192,10 @@ NavigationMap.prototype.setLegend = function(legendConfig){
     .attr('height', 6)
     .attr("xlink:href",function(d){
       return 'static/legend/' + d['model']
+    })
+    .on('mouseover', function(d){
+      console.log('over', d);
+
     })
 };
 

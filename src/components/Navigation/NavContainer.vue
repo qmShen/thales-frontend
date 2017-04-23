@@ -21,12 +21,12 @@
         idRange: [-4, -3, -2, -1, 0, 1, 2, 3, 4],
       }
     },
-    props:['mapObj', 'recordObj'],
+    props:['mapObj', 'recordObj', 'dataRecord'],
 
     mounted(){
       let _this = this;
-      console.log("mapObj ", this.mapObj);
-      console.log("recordObj ", this.recordObj);
+//      console.log("mapObj ", this.mapObj);
+//      console.log("recordObj ", this.recordObj);
       this.layerId = this.mapObj['layer'];
       this.navMap = new NavigationMap(this.$el, this.mapObj);
 
@@ -59,16 +59,14 @@
         _this.legendData = data;
 
         if(_this.legendData && _this.navMap && (_this.navMap.getStationId() == _this.legendData['stationId'])){
-          console.log('legend', _this.legendData[_this.layerId])
           _this.navMap.setLegend(_this.legendData['legendConfig']);
         }
-      })
+      });
+
     },
     methods: {},
     watch:{
       recordObj(newRecord){
-        console.log("udpate in watch");
-        console.log("newRecord: ", newRecord);
         this.navHeatmap.updateHeatmap(newRecord);
       }
     }

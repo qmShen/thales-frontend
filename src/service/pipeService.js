@@ -11,7 +11,8 @@ var pipeService = new Vue({
     LEGENDCONFIGREADY: 'legend_config_ready',
     RECORDREADY: 'record_ready',
     REGIONBRUSHED: 'region_brushed',
-    NAVIGATIONBRUSHSTART:' navigation_brush_start'
+    NAVIGATIONBRUSHSTART:' navigation_brush_start',
+    RENDERFRAME: 'render_frame'
   },
 
   methods:{
@@ -77,6 +78,16 @@ var pipeService = new Vue({
       })
     },
 
+
+    // Render on frame
+    emitRenderFrame: function(msg){
+      this.$emit(this.RENDERFRAME, msg);
+    },
+    onRenderFrame: function(callback){
+      this.$on(this.RENDERFRAME,function(msg){
+        callback(msg);
+      })
+    },
 
   }
 });
