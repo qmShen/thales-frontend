@@ -32,10 +32,12 @@ NavigationHeatmap.prototype.initContainer = function(){
 };
 
 NavigationHeatmap.prototype.updateHeatmap = function(record){
-
+    if(record==undefined) return;
+    console.log("updateHeatmap: ", record);
     this.record = record['data'];
     let startIndex = 0;
     let endIndex = this.record.length;
+    this.updateHeatmapCanvas(this.heatmapInstance, startIndex);
     // this.timer = setInterval(() => {
     //     if (startIndex < endIndex) {
     //         this.updateHeatmapCanvas(this.heatmapInstance, startIndex);

@@ -23,6 +23,7 @@
         stationId: null,
         idRange: [-3, -2, -1, 0, 1, 2, 3],
         mapObjs: [],
+        recordObjs: []
       }
     },
     components: {
@@ -34,12 +35,14 @@
         _this.mapData = data;
         _this.parseMap();
       });
-      pipeService.onRecordReady(function(data){
-        _this.recordData = data;
-        _this.parseRecord();
-      });
+      // pipeService.onRecordReady(function(data){
+      //   _this.recordData = data;
+      //   _this.parseRecord();
+      // });
       pipeService.onRenderFrame(function(renderData){
-          console.log('newRenderData', renderData.length)
+          console.log('NavContainerList, newRenderData', renderData);
+          _this.recordData = renderData;
+          _this.parseRecord();
 //        console.log('index', indexObj.startIndex, indexObj.endIndex,  _this.dataRecord.length);
       });
     },

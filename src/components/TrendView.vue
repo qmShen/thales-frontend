@@ -1,10 +1,10 @@
 <template>
   <div class="trend">
-    {{title}}
   </div>
 </template>
 
 <script>
+  import pipeService from '../service/pipeService.js'
   import RealtimeLinechart from '../libs/RealtimeLinechart.js'
   export default {
     name: 'Trend',
@@ -15,7 +15,13 @@
 
     },
     mounted(){
+      let _this = this;
       this.linechart = new RealtimeLinechart(this.$el);
+
+      pipeService.onRenderFrame(function(renderData){
+          console.log('TrendView, newRenderData', renderData);
+          _this.linechart.updateLinechart(renderData);
+      });
     }
   }
 </script>

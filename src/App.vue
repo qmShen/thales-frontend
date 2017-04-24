@@ -62,6 +62,7 @@
           function() {
             _this.getRecordsFromTime(startTime, _this.timeGap);
             startTime += _this.timeGap;
+            // console.log("_this.dataRecord", _this.dataRecord);
           },
           5000);
       });
@@ -83,7 +84,7 @@
           if(_this.currentLargestTimeStamp < record[record.length - 1]['time_stamp']){
             _this.currentLargestTimeStamp = record[record.length - 1]['time_stamp'];
           }
-          pipeService.emitRecordReady(record);
+          // pipeService.emitRecordReady(record);
           _this.previousTime = new Date();
           if(_this.renderSign == false){
             _this.startRender();
