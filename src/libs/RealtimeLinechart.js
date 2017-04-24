@@ -101,6 +101,8 @@ RealtimeLinechart.prototype.updateLinechart = function (renderData){
     // Add new values
     for (var name in this.groups) {
         var group = this.groups[name]
+
+        // need to change to corresponding floor id, currently hard code.
         let desity = d3.max(renderData[idx]['small_clusters'].map(function(record){ return record[4]}));
         //group.data.push(group.value) // Real values arrive at irregular intervals
         group.data.push(desity==undefined?0:desity);

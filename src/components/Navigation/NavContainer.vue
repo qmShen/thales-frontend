@@ -26,7 +26,7 @@
     mounted(){
       let _this = this;
 
-     console.log("recordObj ", this.recordObj);
+      console.log("recordObj ", this.recordObj);
       this.layerId = this.mapObj['layer'];
       this.navMap = new NavigationMap(this.$el, this.mapObj);
 

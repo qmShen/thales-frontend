@@ -5,10 +5,15 @@
 
 import * as d3 from 'd3'
 
-let DetailMaps = function(el){
+let DetailMap = function(el){
   this.$el = el;
   this.width = el.clientWidth;
   this.height = el.clientHeight;
+
+  this.xScale = undefined;
+  this.yScale = undefined;
+  this.offsetX = undefined;
+  this.offsetY = undefined;
 
   this.margin = {
     top:10,
@@ -23,7 +28,22 @@ let DetailMaps = function(el){
   this.initDetailMap();
 };
 
-DetailMaps.prototype.initDetailMap = function(){
+
+DetailMap.prototype.getScale = function(){
+  return {
+    'xScale': this.xScale,
+    'yScale': this.yScale,
+    'offsetX': this.offsetX,
+    'offsetY': this.offsetY
+  }
+}
+
+// DetailMap.prototype.selectionFlag = function(){
+//   return 
+// }
+
+
+DetailMap.prototype.initDetailMap = function(){
   let _this = this;
   d3.select(this.$el).selectAll('svg').remove();
   this.svg = d3.select(this.$el).append('svg')
@@ -36,12 +56,15 @@ DetailMaps.prototype.initDetailMap = function(){
     .style('border-opacity', 0.3)
     .style('margin-left', _this.margin['left']);
   this.mapContainer = this.svg.append('g').attr('class', 'mapcontainer');
+
+  // // container for bubbles
+  // this.bubbleG = this.mapContainer.append('g').attr('class', 'bubblescontainer');
 };
 
-DetailMaps.prototype.mapFitScale = function(updateConfig){
+DetailMap.prototype.mapFitScale = function(updateConfig){
   console.log('updateConfig', updateConfig);
   let _this = this;
-
+  this.layerId = updateConfig['layerId'];
   let yxSelectionRatio = updateConfig['selectionHeight'] / updateConfig['selectionWidth'];
   let xDataRange = updateConfig['xRange'][0]>updateConfig['xRange'][1]
     ? [updateConfig['xRange'][1],updateConfig['xRange'][0]]
@@ -63,6 +86,9 @@ DetailMaps.prototype.mapFitScale = function(updateConfig){
     renderHeight = renderWidth * yxSelectionRatio;
     offsetY = Math.abs(this.svgHeight - renderHeight) / 2;
   }
+
+  this.offsetX = offsetX;
+  this.offsetY = offsetY;
 
   this.xScale = d3.scaleLinear().domain(updateConfig['xRange']).range([0, renderWidth]);
   this.yScale = d3.scaleLinear().domain(updateConfig['yRange']).range([0, renderHeight]);
@@ -105,8 +131,68 @@ DetailMaps.prototype.mapFitScale = function(updateConfig){
       .attr('height', legendSize)
       .attr("xlink:href",function(d){
         return 'static/legend/' + d['model']
-      })
-
+      });
+  
+  // this.mapContainer.select('.bubblescontainer').remove();
+  // container for bubbles
+  this.bubbleG = this.mapContainer.append('g').attr('class', 'bubblescontainer');
 };
 
-export default DetailMaps
+
+DetailMap.prototype.updateBubblemap = function(renderData){
+  let _this = this;
+
+  // need to parser renderData
+  console.log('layerId: ', this.layerId);
+  console.log('updateBubblemap: ', renderData);
+  let bubblesData = renderData['data'][0]['small_clusters'];
+  console.log('bubblesData: ', bubblesData);
+  let bubbles = this.bubbleG.selectAll('circle').data(bubblesData, function(d) {return d[0]+'_'+d[1];})
+
+  bubbles
+      .transition()
+      .attr('r', function(d){ 
+          return 10;})
+      .text(function(d) {
+          return 'density: '+d[4];
+      })
+      .attr('opacity', 0.3)
+      .attr('stroke', 'white')
+      .attr('stroke-width', 2)
+      .attr('fill', function(d) {
+        return 'blue';
+      })
+  
+  bubbles
+      .enter()
+      .append('circle')
+      .attr('class', 'bubble')
+      .attr('cx', function(d) {
+          return _this.xScale(d[0])+_this.offsetX;
+      })
+      .attr('cy', function(d) {
+          return _this.yScale(d[1])+_this.offsetY;
+      })
+      .attr('r', function(d) { 
+          return 10;})
+      .attr('fill', function(d) {
+        return 'blue';
+      })
+      .attr('opacity', 0.3)
+      .attr('stroke', 'white')
+      .attr('stroke-width', 2)
+      .append('title')
+      .attr('class', 'circleTitle')
+      .text(function(d) {
+          return 'density: '+d[4];
+      })
+
+  bubbles
+      .exit()
+      .transition()
+      .attr('fill', 'blue')
+      .attr('r', 0)
+      .remove();
+};
+
+export default DetailMap

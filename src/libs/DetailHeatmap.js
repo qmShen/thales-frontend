@@ -1,22 +1,19 @@
 /**
- * Created by haipeng on 2017/4/19.
+ * Created by haipeng on 2017/4/24.
  */
 
 import * as d3 from 'd3'
 import h337 from 'heatmap.js'
 
-let NavigationHeatmap = function(el, scaleObject){
+let DetailHeatmap = function(el){
   this.$el = el;
   this.heatmapInstance = undefined;
   this.canvasHeatmap = undefined;
-  this.xScale = scaleObject['xScale'];
-  this.yScale = scaleObject['yScale'];
-  this.offsetX = scaleObject['offsetX'];
   this.initContainer();
 };
 
-NavigationHeatmap.prototype.initContainer = function(){
-  if (this.canvasHeatmap != null) {
+DetailHeatmap.prototype.initContainer = function(){
+  if (this.canvasHeatmap != undefined) {
       this.canvasHeatmap.remove();
     }
     let config = {
@@ -31,7 +28,14 @@ NavigationHeatmap.prototype.initContainer = function(){
     this.canvasHeatmap = this.$el.querySelector('.heatmap-canvas')
 };
 
-NavigationHeatmap.prototype.updateHeatmap = function(record){
+DetailHeatmap.prototype.updateHeatmap = function(record){
+    
+    this.xScale = scaleObject['xScale'];
+    this.yScale = scaleObject['yScale'];
+    this.offsetX = scaleObject['offsetX'];
+    this.offsetY = scaleObject['offsetY'];
+
+
     if(record==undefined) return;
     console.log("updateHeatmap: ", record);
     this.record = record['data'];
@@ -40,7 +44,7 @@ NavigationHeatmap.prototype.updateHeatmap = function(record){
     this.updateHeatmapCanvas(this.heatmapInstance, startIndex);
 };
 
-NavigationHeatmap.prototype.updateHeatmapCanvas = function(heatmapInstance, recordIdx) {
+DetailHeatmap.prototype.updateHeatmapCanvas = function(heatmapInstance, recordIdx) {
     let points = [];
     // let max = 0
     for (let pointIdx in this.record[recordIdx]['small_clusters']) {
@@ -63,8 +67,8 @@ NavigationHeatmap.prototype.updateHeatmapCanvas = function(heatmapInstance, reco
     heatmapInstance.setData(data)
 };
 
-NavigationHeatmap.prototype.clearHeatmapCanvas = function() {
+DetailHeatmap.prototype.clearHeatmapCanvas = function() {
     this.heatmapInstance.setData({ max: 0, data: [] })
 };
 
-export default NavigationHeatmap
+export default DetailHeatmap

@@ -36,9 +36,6 @@ NavigationMap.prototype.getStationId = function(){
 
 // getScale for NavigationHeatmap
 NavigationMap.prototype.getScale = function(){
-
-
-
   return {
     'xScale': this.xScale,
     'yScale': this.yScale,
